@@ -2,7 +2,7 @@ const caixaPrincipal = document.querySelector(".caixa-principal");
 const caixaPerguntas = document.querySelector(".caixa-perguntas");
 const caixaAlternativas = document.querySelector(".caixa-alternativas");
 const caixaResultado = document.querySelector(".caixa-resultado");
-const textoResultado = document.querySelector(".texto-rresultado");
+const textoResultado = document.querySelector(".texto-resultado");
 
 const perguntas = [
     {
@@ -10,11 +10,11 @@ const perguntas = [
         alternativas: [
             {
                 texto: "Buscaria entender o por quê",
-                afirmacao:"afirmacao"
+                afirmacao:"Começa a se aprofundar na busca por informações sobre mudanças climáticas e o efeito estufa, percebendo que o que antes parecia um evento isolado é na verdade parte de um problema muito maior e mais complexo."
             },
             {
                 texto:"Apenas ignoraria",
-                afirmacao: "afirmacao"
+                afirmacao: "Decide que um dia de calor extremo não é um problema, afinal, é só ligar o ar-condicionado. Não percebe que essa ação, somada à de outras milhões de pessoas, está contribuindo para o aumento da temperatura do planeta."
             }
             
         ]
@@ -24,11 +24,11 @@ const perguntas = [
         alternativas: [
             {
                 texto: "Diria que era apenas porque não choveu e voltaria a dormir.",
-                afirmacao:"afirmacao"
+                afirmacao:"Entende que a qualidade do ar está diretamente ligada à poluição e à falta de áreas verdes. Diante disso, passa a questionar suas próprias atitudes e hábitos diários, buscando formas de contribuir para um ambiente mais saudável."
             },
             {
                 texto:"Pesquisaria o por quê para corrigir esse problema.",
-                afirmacao: "afirmacao"
+                afirmacao: "Apenas instala um umidificador e resolve o problema pontualmente. Não se aprofunda na causa do problema e deixa de fazer escolhas mais sustentáveis em seu dia a dia."
             }
             
         ]
@@ -38,11 +38,11 @@ const perguntas = [
         alternativas: [
             {
                 texto: "Descartaria tudo no lixo comum, como de costume",
-                afirmacao:"afirmacao"
+                afirmacao:"Começa a pesquisar sobre compostagem doméstica, descobrindo que é possível transformar resíduos orgânicos em adubo rico e nutritivo para as plantas, ajudando a fechar o ciclo da matéria orgânica e a reduzir a quantidade de lixo em aterros sanitários."
             },
             {
                 texto:"Procuraria informações sobre compostagem para transformar o lixo em adubo.",
-                afirmacao: "afirmacao"
+                afirmacao: "Continua a descartar todos os resíduos juntos. Ignora as campanhas de conscientização sobre a separação de lixo e a importância da reciclagem, contribuindo para o aumento do volume de lixo em aterros sanitários."
             }
             
         ]
@@ -52,11 +52,11 @@ const perguntas = [
         alternativas: [
             {
                 texto: "Pegaria seu carro particular para maior comodidade.",
-                afirmacao:"afirmacao"
+                afirmacao:"Prioriza meios de transporte coletivos, como ônibus, trem e metrô, ou a bicicleta. Sabe que a escolha por esses meios de transporte pode reduzir drasticamente a emissão de carbono, e que a comodidade de um carro nem sempre vale a pena."
             },
             {
                 texto:"Optaria por transporte público ou bicicleta, se possível.",
-                afirmacao: "afirmacao"
+                afirmacao: "Escolhe o carro particular por ser mais cômodo e prático, sem se preocupar com as emissões de carbono. Não considera que essa escolha, repetida por outras pessoas, é um dos principais fatores para o aumento da poluição nas grandes cidades."
             }
             
         ]
@@ -66,11 +66,11 @@ const perguntas = [
         alternativas: [
             {
                 texto: "Compraria a opção mais barata para economizar dinheiro.",
-                afirmacao:"afirmacao"
+                afirmacao:"Entende que o preço de um produto não é apenas o valor monetário. Leva em consideração o impacto ambiental e social de suas escolhas. Sabe que apoiar empresas sustentáveis é um investimento no futuro do planeta."
             },
             {
                 texto:"Escolheria o produto da marca sustentável, priorizando o impacto ambiental.",
-                afirmacao: "afirmacao"
+                afirmacao: "Opta pela opção mais barata, sem considerar o impacto que a produção do produto pode ter no meio ambiente. Prioriza a economia de dinheiro a curto prazo, sem pensar nas consequências a longo prazo."
             }
             
         ]
@@ -80,10 +80,16 @@ const perguntas = [
 
 let atual = 0;
 let perguntaAtual;
+let historiaFinal = "";
 
 function mostraPergunta(){
+    if(atual >= perguntas.length){
+        mostraResultado();
+        return;
+    }
     perguntaAtual = perguntas[atual];
     caixaPerguntas.textContent = perguntaAtual.enunciado;
+    caixaAlternativas.textContent = "";
     mostraAlternativas();
 }
 
@@ -91,12 +97,22 @@ function mostraAlternativas(){
     for(const alternativa of perguntaAtual.alternativas){
         const botaoAlternativa = document.createElement("button");
         botaoAlternativa.textContent = alternativa.texto;
-        botaoAlternativa.addEventListener("click", function(){
-            atual++;
-            mostraPergunta();
-        })
+        botaoAlternativa.addEventListener("click", () => respostaSelecionada(alternativa))
         caixaAlternativas.appendChild(botaoAlternativa);
     }
+}
+
+function respostaSelecionada(opcaoSelecionada){
+    const afirmacao = opcaoSelecionada.afirmacao;
+    historiaFinal += afirmacao + " ";
+        atual++;
+        mostraPergunta();
+}
+
+function mostraResultado(){
+    caixaPerguntas.textContent = "Em 2050...";
+    textoResultado.textContent = historiaFinal;
+    caixaAlternativas.textContent = "";
 }
 
 mostraPergunta();   
