@@ -1,10 +1,4 @@
-const caixaPrincipal = document.querySelector(".caixa-principal");
-const caixaPerguntas = document.querySelector(".caixa-perguntas");
-const caixaAlternativas = document.querySelector(".caixa-alternativas");
-const caixaResultado = document.querySelector(".caixa-resultado");
-const textoResultado = document.querySelector(".texto-resultado");
-
-const perguntas = [
+export const perguntas = [
     {
         enunciado: "Você acorda e percebe o clima mais intenso. Percebe que isso não é comum, mas por conta das obrigações diárias apenas continua sua rotina. Mais tarde, ao abrir o celular, abre o aplicativo do clima e se espanta: está 37 graus! Diante disso, o quê você faria?",
         alternativas: [
@@ -21,7 +15,6 @@ const perguntas = [
                     "Não percebe que essa ação, somada à de outras milhões de pessoas, está contribuindo para o aumento da temperatura do planeta."
                 ]
             }
-            
         ]
     },
     {
@@ -40,9 +33,8 @@ const perguntas = [
                     "Apenas instala um umidificador e resolve o problema pontualmente. Não se aprofunda na causa do problema e deixa de fazer escolhas mais sustentáveis em seu dia a dia."
                 ]
             }
-            
         ]
-    }, 
+    },
     {
         enunciado: "Ao preparar suas refeições, você percebe que está gerando uma quantidade considerável de lixo orgânico. Pensando em maneiras de reduzir seu impacto, o que você faria com esses resíduos?",
         alternativas: [
@@ -58,7 +50,6 @@ const perguntas = [
                     "Continua a descartar todos os resíduos juntos. Ignora as campanhas de conscientização sobre a separação de lixo e a importância da reciclagem, contribuindo para o aumento do volume de lixo em aterros sanitários."
                 ]
             }
-            
         ]
     },
     {
@@ -78,7 +69,6 @@ const perguntas = [
                     "Não considera que essa escolha, repetida por outras pessoas, é um dos principais fatores para o aumento da poluição nas grandes cidades."
                 ]
             }
-            
         ]
     },
     {
@@ -98,52 +88,6 @@ const perguntas = [
                     "Prioriza a economia de dinheiro a curto prazo, sem pensar nas consequências a longo prazo."
                 ]
             }
-            
         ]
     }
 ];
-
-let atual = 0;
-let perguntaAtual;
-let historiaFinal = "";
-
-function mostraPergunta(){
-    if(atual >= perguntas.length){
-        mostraResultado();
-        return;
-    }
-    perguntaAtual = perguntas[atual];
-    caixaPerguntas.textContent = perguntaAtual.enunciado;
-    caixaAlternativas.textContent = "";
-    mostraAlternativas();
-}
-
-function mostraAlternativas(){
-    for(const alternativa of perguntaAtual.alternativas){
-        const botaoAlternativa = document.createElement("button");
-        botaoAlternativa.textContent = alternativa.texto;
-        botaoAlternativa.addEventListener("click", () => respostaSelecionada(alternativa))
-        caixaAlternativas.appendChild(botaoAlternativa);
-    }
-}
-
-// Nova função para pegar um item aleatório de uma lista
-function aleatorio(lista) {
-    const indice = Math.floor(Math.random() * lista.length);
-    return lista[indice];
-}
-
-function respostaSelecionada(opcaoSelecionada){
-    const afirmacaoSelecionada = aleatorio(opcaoSelecionada.afirmacoes);
-    historiaFinal += afirmacaoSelecionada + " ";
-    atual++;
-    mostraPergunta();
-}
-
-function mostraResultado(){
-    caixaPerguntas.textContent = "Em 2050...";
-    textoResultado.textContent = historiaFinal;
-    caixaAlternativas.textContent = "";
-}
-
-mostraPergunta();
